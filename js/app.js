@@ -24,17 +24,18 @@ const posTop = sectionArr.map((section) => {
   return posTopInn;
 }); // a constant arry to contain the offset vlaue of each section element from the top of the document [wasn't very necessary but it was part of a previous failed implementation, but it serves the purpose anyway]
 
-
 /**
  * End Global Variables
  * Start Helper Functions
  *
  */
-let addActiveClass = (sectionID) => {
+let addActiveClass = (sectionID, sectionIndex) => {
   document.querySelector(`#${sectionID}`).classList.add("your-active-class");
+  document.querySelector(`#nav-link-${sectionIndex}`).classList.add("active");
 };
-let removeActiveClass = (sectionID) => {
+let removeActiveClass = (sectionID, sectionIndex) => {
   document.querySelector(`#${sectionID}`).classList.remove("your-active-class");
+  document .querySelector(`#nav-link-${sectionIndex}`).classList.remove("active");
 };
 /**
  * End Helper Functions
@@ -51,12 +52,12 @@ let buildNav = function () {
 
     let liLink = document.createElement("a"); // create link element
     liLink.href = " "; //`#${sectionArr[sectionArr.indexOf(element)].id}`;
-    liLink.setAttribute("id", `nav-link-${sectionArr.indexOf(element)}`); // adding unique id attribute to each list item element created
+    liLink.setAttribute("id", `nav-link-${sectionArr.indexOf(element)}`); // adding unique id attribute to each list item  created
     liLink.classList.add("menu__link");
     liLink.innerText = sectionArr[sectionArr.indexOf(element)].dataset.nav;
     listEl.appendChild(liLink);
     document.querySelector("#navbar__list").appendChild(listEl);
-    return listEl, liLink; //making both variables avialable out
+    return listEl, liLink; //making both variables avialable outside the function
   });
 };
 
@@ -64,20 +65,23 @@ let buildNav = function () {
 let intoViewDetect = function () {
   let scrollPosition = document.documentElement.scrollTop;
   sectionArr.forEach((section) => {
-    console.log(section.offsetTop , section.id)
+    let sectionDomRect = section.getBoundingClientRect();
     if (
-      scrollPosition >= section.offsetTop - section.offsetHeight*.25 &&
-      scrollPosition < section.offsetTop + section.offsetHeight - section.offsetHeight*.25
+      /*the top of the element is more than negative 10% of the window height to compensate for the width of nav. bar
+       and not more than 70% percent of the window height 
+       [the numbers and percentages here do not follow certain rule and were dictated by trial & error]*/  
+      sectionDomRect.top >= -0.1 * window.innerHeight &&
+      sectionDomRect.top < 0.7 * window.innerHeight
     ) {
-      addActiveClass(section.id); 
-    }else{
-      removeActiveClass(section.id);
+      addActiveClass(section.id, sectionArr.indexOf(section));
+    } else {
+      removeActiveClass(section.id, sectionArr.indexOf(section));
     }
   });
 };
 
 // Scroll to anchor ID using scrollTO event
-let scrollTOo = function () {
+let scrollTO = function () {
   let links = document.querySelectorAll(".list-item");
   let linkArr = [...links];
 
@@ -102,7 +106,9 @@ let scrollTOo = function () {
 // Build menu
 buildNav();
 // Scroll to section on link click
-scrollTOo();
+scrollTO();
 
 // Set sections as active
-intoViewDetect();
+window.onscroll = function () {
+  intoViewDetect();
+};
