@@ -19,10 +19,7 @@
  */
 let sections = document.getElementsByTagName("section");
 let sectionArr = [...sections]; //to turn  HTMLColletion into an array (Spread opperator is used from ECMAScript2015)
-const posTop = sectionArr.map((section) => {
-  posTopInn = section.offsetTop;
-  return posTopInn;
-}); // a constant arry to contain the offset vlaue of each section element from the top of the document [wasn't very necessary but it was part of a previous failed implementation, but it serves the purpose anyway]
+
 
 /**
  * End Global Variables
@@ -89,7 +86,7 @@ let scrollTO = function () {
     link.addEventListener("click", (e) => {
       e.preventDefault();
       window.scrollTo({
-        top: posTop[linkArr.indexOf(link)] * 0.95,
+        top:sectionArr[linkArr.indexOf(link)].offsetTop*.95,
         left: 0,
         behavior: "smooth",
       }); //scroll to the top position of the corresponding link element
