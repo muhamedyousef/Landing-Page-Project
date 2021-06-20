@@ -86,7 +86,7 @@ let scrollTO = function () {
     link.addEventListener("click", (e) => {
       e.preventDefault();
       window.scrollTo({
-        top:sectionArr[linkArr.indexOf(link)].offsetTop*.95,
+        top:sectionArr[linkArr.indexOf(link)].offsetTop,
         left: 0,
         behavior: "smooth",
       }); //scroll to the top position of the corresponding link element
