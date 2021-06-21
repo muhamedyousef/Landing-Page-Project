@@ -72,17 +72,7 @@ section {
     text-align: right;
 }
 
-@media only screen and (max-width: 500px){
-    .navbar__menu ul {
-        padding-left: 0;
-        margin: 0;
-        text-align: right;
-        white-space: nowrap;
-        overflow-x: auto; 
-        -webkit-overflow-scrolling: touch;
-    }
-    
-}
+
 
 .navbar__menu li {
     display: inline-block;
@@ -100,8 +90,10 @@ section {
     color: #000;
 }
 
-.navbar__menu .active {
-    color: #cc1;
+
+
+.navbar__menu  .active {
+    color: #cc1 !important; 
     transition: all 0.3s ease;
 }
 
@@ -111,6 +103,31 @@ section {
     color: #fff;
     transition: ease 0.3s all;
 }
+
+@media only screen and (max-width: 500px){
+    .navbar__menu ul {
+        padding-left: 0;
+        margin: 0;
+        text-align: right;
+        white-space: nowrap;
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .navbar__menu .menu__link:hover {
+     background-color: unset;
+     color: unset;
+    }
+
+    .navbar__menu  .active {
+        color: #cc1;
+        transition: all 0.3s ease;
+    }
+
+    
+}
+
+
 
 /* Header Styles */
 .page__header {
